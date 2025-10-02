@@ -13,13 +13,17 @@ def lambda_handler(event, context):
     logger.info("Lambda iniciada com sucesso!")
     logger.info(event)
 
+    body = json.loads(event.get("body"))
+
+    logger.info(body)
+
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table("pratica-aula-7")
     
     item = {
         "IdCliente": str(uuid.uuid4()),
-        "Nome": event.get("nome"),
-        "Idade": event.get("idade")
+        "Nome": body.get("nome"),
+        "Idade": body.get("idade")
     }
 
     table.put_item(Item=item)
